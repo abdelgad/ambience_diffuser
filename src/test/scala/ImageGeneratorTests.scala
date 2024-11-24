@@ -20,9 +20,9 @@ class ImageGeneratorTests extends AnyFunSuite {
   val pattern = ImagePattern.Round
 
   // Color(red,green,blue,alpha)
-  val primary = new Color(255, 0, 0, 100)
-  val secondary = new Color(0, 255, 0, 100)
-  val third = new Color(0, 0, 255, 100)
+  val primary = new Color(255, 0, 0, 255)
+  val secondary = new Color(0, 255, 0, 255)
+  val third = new Color(0, 0, 255, 255)
 
   ImageGenerator.setDim(dim)
   ImageGenerator.setPattern(pattern)
