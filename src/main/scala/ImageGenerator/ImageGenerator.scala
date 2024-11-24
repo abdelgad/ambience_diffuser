@@ -6,6 +6,7 @@ package ImageGenerator
 
 import java.awt.{Color, Graphics2D}
 import java.awt.image.BufferedImage
+import com.jhlabs.image.GaussianFilter
 
 /**
  *
@@ -15,9 +16,10 @@ object ImageGenerator {
   var width = 400
   var height = 300
 
-  var primaryColor: Color = new Color(100, 125, 125, 0)
-  var secondaryColor: Color = new Color(100, 0, 125, 125)
-  var thirdColor: Color = new Color(100, 125, 0, 125)
+  var primaryColor: Color = new Color(125, 125, 0, 255)
+  var secondaryColor: Color = new Color(0, 125, 125, 255)
+  var thirdColor: Color = new Color(125, 0, 125, 255)
+  val classColor = new Color(255, 255, 255, 70)
 
   var pattern: ImagePattern.ImagePattern = ImagePattern.Round
 
@@ -34,13 +36,21 @@ object ImageGenerator {
 
     // Round
     g2d.setColor(this.secondaryColor)
-    g2d.fillOval(rpw(30), rph(30), rpw(30), rpw(30))
+    g2d.fillOval(rpw(15), rph(30), rpw(30), rpw(30))
+
+    g2d.setColor(this.thirdColor)
+    g2d.fillOval(rpw(65), rph(0), rpw(10), rpw(10))
+
+    // Glass filter
+    g2d.setColor(classColor)
+    g2d.fillRect(0, 0, this.width, this.height)
 
     // Call dispose without argument
     g2d.dispose
 
-    // Return image
-    bufferedImage
+    val blurFilter = new GaussianFilter(30)
+    blurFilter.filter(bufferedImage, null)
+
   }
 
   /**
