@@ -1,4 +1,4 @@
-[0m[[0m[0mdebug[0m] [0m[0mPackaging C:\Users\A\Documents\Scala\projet-scala\generate_sound\target\scala-2.13\ambience_sound_generator_2.13-0.1.0-SNAPSHOT.jar ...[0m
+[0m[[0m[0mdebug[0m] [0m[0mPackaging C:\Users\A\Documents\Scala\projet-scala\generate_sound\target\scala-2.13\generate_sound_2.13-0.1.0-SNAPSHOT.jar ...[0m
 [0m[[0m[0mdebug[0m] [0m[0mInput file mappings:[0m
 [0m[[0m[0mdebug[0m] [0m[0m	Condition$.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\A\Documents\Scala\projet-scala\generate_sound\target\scala-2.13\classes\Condition$.class[0m
@@ -16,6 +16,10 @@
 [0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\A\Documents\Scala\projet-scala\generate_sound\target\scala-2.13\classes\Main$delayedInit$body.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	Main.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\A\Documents\Scala\projet-scala\generate_sound\target\scala-2.13\classes\Main.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	SensorClassifier$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\A\Documents\Scala\projet-scala\generate_sound\target\scala-2.13\classes\SensorClassifier$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	SensorClassifier.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\A\Documents\Scala\projet-scala\generate_sound\target\scala-2.13\classes\SensorClassifier.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	Snapshot$.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\A\Documents\Scala\projet-scala\generate_sound\target\scala-2.13\classes\Snapshot$.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	Snapshot.class[0m

@@ -3,7 +3,7 @@ ThisBuild / scalaVersion := "2.13.12"
 
 lazy val root = (project in file("."))
   .settings(
-    name := "ambience_sound_generator",
+    name := "generate_sound",
     libraryDependencies ++= Seq(
       // spray-json pour convertir Snapshot en JSON (si nécessaire)
       "io.spray" %% "spray-json" % "1.3.6",

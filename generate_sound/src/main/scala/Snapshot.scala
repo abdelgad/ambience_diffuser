@@ -3,11 +3,11 @@ import spray.json._
 // Classe pour représenter un Snapshot
 case class Snapshot(
   datetime: String,
-  humidity: String,    // Sec, Moyen, Humide
-  noise: String,       // Normale, Bruyant
-  light: String,       // Claire, Sombre
-  temperature: String, // Froid, Tempéré, Chaud
-  heartRate: String    // Faible, Fort
+  humidity: Double,       // En pourcentage
+  temperature: Double,    // En degrés Celsius
+  illuminance: Double,    // En lux
+  noiseLevel: Double,     // En décibels
+  heartRate: Int          // En BPM
 )
 
 // JSON format pour Snapshot (si nécessaire pour tests ou stockage)

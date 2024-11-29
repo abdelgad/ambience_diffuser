@@ -11,28 +11,33 @@ case class Leaf(playlist: List[String]) extends DecisionTree
 object SoundDecisionTree {
    // Fonction pour classer les données du Snapshot
   def classifySnapshot(snapshot: Snapshot): String = {
-    (snapshot.humidity, snapshot.noise, snapshot.light, snapshot.temperature, snapshot.heartRate) match {
-      case ("Sec", "Normale", "Sombre", "Froid", "Faible") => "Catégorie 1"
-      case ("Sec", "Normale", "Sombre", "Froid", "Fort") => "Catégorie 2"
-      case ("Sec", "Normale", "Claire", "Froid", "Faible") => "Catégorie 3"
-      case ("Sec", "Normale", "Claire", "Froid", "Fort") => "Catégorie 4"
-      case ("Sec", "Bruyant", "Sombre", "Tempéré", "Faible") => "Catégorie 5"
-      case ("Sec", "Bruyant", "Sombre", "Tempéré", "Fort") => "Catégorie 6"
-      // Les autres catégories du fichier...
-      case _ => "Catégorie Inconnue"
+    val humidity = SensorClassifier.classifyHumidity(snapshot.humidity)
+    val noise = SensorClassifier.classifyNoise(snapshot.noiseLevel)
+    val light = SensorClassifier.classifyLight(snapshot.illuminance)
+    val temperature = SensorClassifier.classifyTemperature(snapshot.temperature)
+    val heartRate = SensorClassifier.classifyHeartRate(snapshot.heartRate)
+
+    (humidity, noise, light, temperature, heartRate) match {
+      case ("Sec", "Normale", "Sombre", "Froid", "Faible") =>
+        "Catégorie 1: Triangle, Clignotement rapide, Mélodie tonique"
+      case ("Sec", "Normale", "Sombre", "Froid", "Fort") =>
+        "Catégorie 2: Cercle, Transition douce, Son relaxant" //Faire ça jusqu'à la catégorie 72
+      case ("Humide", "Bruyant", "Claire", "Chaud", "Fort") =>
+        "Catégorie 72: Triangle, Transition rapide, Son énergique"
+      case _ =>                                             // Si finalement aucuns critères ne corresponds
+        "Catégorie Inconnue: Aucun affichage associé"
     }
   }
 
   // Fonction pour mapper une catégorie à une playlist
   def getPlaylist(category: String): List[String] = {
     category match {
-      case "Catégorie 1" => List("Triangle.mp3", "ClignotementRapide.mp3", "MelodieTonique.mp3")
-      case "Catégorie 2" => List("Cercle.mp3", "TransitionDouce.mp3", "SonRelaxant.mp3")
-      case "Catégorie 3" => List("Carre.mp3", "OndulationLente.mp3", "SonApaisant.mp3")
-      case "Catégorie 4" => List("Hexagone.mp3", "ClignotementMoyen.mp3", "SonNeutre.mp3")
-      case "Catégorie 5" => List("Etoile.mp3", "TransitionRapide.mp3", "MelodieHarmonieuse.mp3")
-      // Playlists pour les autres catégories...
-      case _ => List("DefaultSound.mp3")
+      case cat if cat.startsWith("Catégorie 1") =>
+        List("High Energy.mp3", "Tropical Beats.mp3")
+      case cat if cat.startsWith("Catégorie 2") =>
+        List("Relaxing Piano.mp3", "Soft Guitar.mp3")  //Prévoir pour toutes les catégories ??
+      case _ =>
+        List("DefaultSound.mp3")
     }
   }
 }
