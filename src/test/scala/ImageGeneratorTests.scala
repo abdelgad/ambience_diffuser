@@ -1,36 +1,40 @@
 package ImageGenerator
 
-import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.matchers.should.Matchers._
 
-import java.awt.{Color, Graphics}
+import java.awt.Color
 import java.awt.image.BufferedImage
-import javax.swing.{JFrame, JPanel, WindowConstants}
-import be.grouph.BasicDisplay
-
-import javax.imageio.ImageIO
-import java.io.File
+import com.grouph.BasicDisplay
 
 
-class ImageGeneratorTests extends AnyFunSuite {
+class ImageGeneratorTests extends AnyFlatSpec {
 
   val width = 1280
   val height = 720
-  val dim = (width, height)
-
-  val pattern = ImagePattern.Round
 
   // Color(red,green,blue,alpha)
   val primary = new Color(255, 0, 0, 255)
   val secondary = new Color(0, 255, 0, 255)
   val third = new Color(0, 0, 255, 255)
 
-  ImageGenerator.setDim(dim)
-  ImageGenerator.setPattern(pattern)
-  ImageGenerator.setColor(primary, secondary, third)
+  val IG: ImageGenerator = new ImageGenerator(width, height)
 
-  val image: BufferedImage = ImageGenerator.generate()
-  BasicDisplay.displayImage(image)
+  "Image" should "display" in {
+    IG new_image primary
 
-  val outputFile = new File("./src/test/resources/output/test_1.png")
-  ImageIO.write(image, "png", outputFile)
+    BasicDisplay displayImage(IG generate_image true)
+    Thread.sleep(4000)
+  }
+
+  "Generate image" should "not throw an exception" in {
+    IG new_image primary
+    IG.addCercle(500, 500, 100, secondary)
+
+    noException should be thrownBy {
+      val image: BufferedImage = IG generate_image true
+    }
+  }
+
 }
