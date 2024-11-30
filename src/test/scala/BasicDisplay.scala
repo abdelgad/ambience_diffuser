@@ -1,4 +1,4 @@
-package be.grouph
+package com.grouph
 
 import javax.swing._
 import java.awt._

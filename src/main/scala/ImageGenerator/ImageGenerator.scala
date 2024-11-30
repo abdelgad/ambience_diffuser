@@ -9,94 +9,47 @@ import java.awt.image.BufferedImage
 import com.jhlabs.image.GaussianFilter
 
 /**
- *
+ * Helping class to generate image. **Warning**: It's not allow to resize image.
+ * @param width image width, should be equal to screen width
+ * @param height image height, should be equal to screen height
  * */
-object ImageGenerator {
+class ImageGenerator(width: Int, height: Int) {
 
-  var width = 400
-  var height = 300
+  // Create an image with ARGB color space. A stands for alpha, and allow to control transparency
+  val bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB)
+  val g2d = bufferedImage.createGraphics()
 
-  var primaryColor: Color = new Color(125, 125, 0, 255)
-  var secondaryColor: Color = new Color(0, 125, 125, 255)
-  var thirdColor: Color = new Color(125, 0, 125, 255)
-  val classColor = new Color(255, 255, 255, 70)
-
-  var pattern: ImagePattern.ImagePattern = ImagePattern.Round
-
-
-  def generate(): BufferedImage = {
-
-    // Create an image with ARGB color space. A stands for alpha, and allow to control transparency
-    val bufferedImage = new BufferedImage(this.width, this.height, BufferedImage.TYPE_INT_ARGB)
-    val g2d = bufferedImage.createGraphics
-
-    // Background
-    g2d.setColor(this.primaryColor)
-    g2d.fillRect(0, 0, this.width, this.height)
-
-    // Round
-    g2d.setColor(this.secondaryColor)
-    g2d.fillOval(rpw(15), rph(30), rpw(30), rpw(30))
-
-    g2d.setColor(this.thirdColor)
-    g2d.fillOval(rpw(65), rph(0), rpw(10), rpw(10))
-
-    // Glass filter
-    g2d.setColor(classColor)
-    g2d.fillRect(0, 0, this.width, this.height)
+  def generate_image(blur: Boolean = true): BufferedImage = {
 
     // Call dispose without argument
     g2d.dispose
-
-    val blurFilter = new GaussianFilter(30)
-    blurFilter.filter(bufferedImage, null)
-
+    if (blur) {
+      val blurFilter = new GaussianFilter(30)
+      blurFilter.filter(bufferedImage, null)
+    } else {
+      bufferedImage
+    }
   }
 
   /**
-   * Set dimension for image
-   * @param dim Target dimension with (width, height) format.
+   * Create new image, erase all drawing safely
+   * @param background_color Background color (RGBA)
    * */
-  def setDim(dim: Tuple2[Int, Int]): Unit = {
-    this.width = dim(0)
-    this.height = dim(1)
+  def new_image(background_color: Color) = {
+    // Background
+    g2d.setColor(background_color)
+    g2d.fillRect(0, 0, this.width, this.height)
   }
 
   /**
-   * Set the pattern of the image. I.e. the form, background, blur, etc.
-   * @param pattern The wanted pattern, define in ImagePattern enumeration
+   * Add circle in the image
+   * @param position_x: The absolute position of x the cercle in the image. unit: pixel
+   * @param position_y: The absolute position of y the cercle in the image. unit: pixel
+   * @param rayon: The *rayon* of the cercle. Unit: pixel
+   * @param color: Color of the circle.
    * */
-  def setPattern(pattern: ImagePattern.ImagePattern): Unit = {
-    this.pattern = pattern
+  def addCercle(position_x: Int, position_y: Int, rayon: Int, color: Color): Unit = {
+    g2d.setColor(color)
+    g2d.fillOval(position_x, position_y, rayon, rayon)
   }
-
-  def setColor(primary: Color, secondary: Color, third: Color): Unit = {
-    this.primaryColor = primary
-    this.secondaryColor = secondary
-    this.thirdColor = third
-  }
-
-  /**
-   * Helping function to allow relative positionning. To not care about image dimension
-   * @param percent Relative position value
-   * @param dimSize Value of the size of the targeted dimension
-   * */
-  def relativePosition(percent: Float, dimSize: Int): Int = {
-    val position: Float = (percent * dimSize) / 100
-    position.toInt
-  }
-  /**
-   * alias for [[relativePosition]]
-   * */
-  def rp = relativePosition
-
-  /**
-   * alias for [[relativePosition]] with set dimension to image width
-   * */
-  def rpw = relativePosition(_, this.width)
-
-  /**
-   * alias for [[relativePosition]] with set dimension to image height
-   * */
-  def rph = relativePosition(_, this.height)
 }
