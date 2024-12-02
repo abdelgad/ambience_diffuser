@@ -17,4 +17,6 @@ libraryDependencies ++= Seq(
 )
 
 // logger
-libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.5.6" // Compatible with SLF4J
+libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.5.7" // Compatible with SLF4J
+
+fork := true

@@ -1,9 +1,8 @@
 import akka.actor.Actor
-
 import java.io.File
 import java.nio.file.{Files, Paths, StandardOpenOption}
 
-case object NotifySynchronization
+
 case class FileList(files: Set[String])
 case class RequestFile(fileName: String)
 case class FileContent(fileName: String, content: String)
@@ -11,8 +10,7 @@ case class FileContent(fileName: String, content: String)
 class FileClient(localFolderPath: String) extends Actor{
   override def receive: Receive = {
     case FileList(serverFiles) =>
-      println(s"Received file list from server: $serverFiles")
-
+      println(s"Received file list from server")
       val folder = new File(localFolderPath)
       if (!folder.exists()) folder.mkdir()
 
