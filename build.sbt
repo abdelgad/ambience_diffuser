@@ -1,20 +1,11 @@
-ThisBuild / version := "1.0.0"
+ThisBuild / version := "0.1.0-SNAPSHOT"
 
 ThisBuild / scalaVersion := "3.3.4"
 
 lazy val root = (project in file("."))
   .settings(
-    name := "ambience_diffuser",
-	  assembly / mainClass := Some("AmbienceDiffuser")
+    name := "ambience_diffuser"
   )
-
-import sbtassembly.AssemblyPlugin.autoImport._
-
-assembly / assemblyMergeStrategy := {
-  case PathList("META-INF", "native-image", _ @ _*) => MergeStrategy.discard
-  case "reference.conf" => MergeStrategy.concat
-  case x => MergeStrategy.first
-}
 
 // akka
 resolvers += "Akka library repository".at("https://repo.akka.io/maven")
@@ -27,16 +18,8 @@ libraryDependencies ++= Seq(
   "com.jhlabs" % "filters" % "2.0.235"
 )
 
-
-val AkkaHttpVersion = "10.7.0"
-libraryDependencies ++= Seq(
-  "com.typesafe.akka" %% "akka-http" % AkkaHttpVersion,
-  "com.typesafe.akka" %% "akka-http-spray-json" % AkkaHttpVersion,
-  "com.typesafe.akka" %% "akka-stream" % AkkaVersion
-)
-
-
 // logger
 libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.5.6" // Compatible with SLF4J
 
-Compile / resourceDirectory := baseDirectory.value / "src" / "main" / "resources"
+// Processing for video generation
+libraryDependencies += "org.processing" % "core" % "3.3.7"
