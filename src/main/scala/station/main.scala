@@ -1,3 +1,5 @@
+package station
+
 import akka.actor.{ActorSystem, Props}
 import akka.http.scaladsl.Http
 
