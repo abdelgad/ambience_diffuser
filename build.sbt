@@ -20,3 +20,6 @@ libraryDependencies ++= Seq(
 
 // logger
 libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.5.6" // Compatible with SLF4J
+
+// Processing for video generation
+libraryDependencies += "org.processing" % "core" % "3.3.7"
