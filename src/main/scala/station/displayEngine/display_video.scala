@@ -2,7 +2,7 @@ package station.displayEngine
 
 import processing.core.PApplet
 
-class DisplayVideo  {
+object display_video  {
   def display_pattern(pattern: Pattern): Option[Unit] = {
     pattern match
       case orbite: OrbitePattern => {
@@ -12,5 +12,5 @@ class DisplayVideo  {
       case _ => None
   }
   
-  def run_engine(engine: String) = PApplet.main(engine)
+  private def run_engine(engine: String): Unit = PApplet.main(engine)
 }
