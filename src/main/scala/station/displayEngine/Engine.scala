@@ -2,6 +2,8 @@ package station.displayEngine
 
 import processing.core.PApplet
 
+import scala.util.Try
+
 abstract class Engine extends PApplet {
   
   var op: engine_param = engine_param_object // Object parameter that hold instance parameters
@@ -67,12 +69,23 @@ abstract class Engine extends PApplet {
    * @param percent Relative distance to compute. Unit: percent (Float)
    * */
   def rph(percent: Float): Float = (this.height * percent / 100)
-  
+
   /**
    * Helping method that allow to fill with a Color value directly
    * @param c Color to fill. (Color)
    * */
   def fill_color(c: Color) = fill(c(0), c(1), c(2))
+
+  /**
+   * Create hue from color, based on a rate.
+   * @param c Color to base from. (Color)
+   * @param rate The dark rate to apply. 1 will put all color on black
+   * */
+  def dark_hue_map(c: Color, rate: Float): Color = {
+    assert(rate >= 0 || rate <= 1, s"Rate must be a %, then must be in [0, 1] not $rate")
+    val b_rate = 1 - rate
+    ((c(0)*b_rate).toInt, (c(1)*b_rate).toInt, (c(2)*b_rate).toInt)
+  }
 
 }
 
