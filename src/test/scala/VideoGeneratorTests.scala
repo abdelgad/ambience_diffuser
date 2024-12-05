@@ -17,7 +17,7 @@ class VideoGeneratorTests extends AnyFlatSpec {
   "Generate orbite video" should "not failed" in {
     
     val pattern = new OrbitePattern(
-      background_color = space_black, blur = 0,
+      background_color = space_black, blur = 5,
       relative_orbite_width = 15, relative_orbite_height = 5,
       angular_speed = 1e-2,
       relative_planet_radius = 10, relative_sattelite_radius = 2, relative_faraway_planet_radius = 6,

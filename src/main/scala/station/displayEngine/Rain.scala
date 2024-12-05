@@ -7,10 +7,11 @@ class Rain extends Engine {
   this.op = rain_params
   val rop = rain_params
 
-  val blur_level = 5
+  val blur_level = 8
 
   var building_max_height: Int = _
   val building_color = (128,128,128)
+  val nbr_buildings: Int = 8
 
   val nbr_drops: Int = 20
   val drop_color: Color = (212, 241, 248)
@@ -19,7 +20,7 @@ class Rain extends Engine {
   private var drops: List[drop] = _
 
   def set_relative_val = {
-    building_max_height = rph(90).toInt
+    building_max_height = rph(70).toInt
   }
 
   // ==========
@@ -96,17 +97,22 @@ class Rain extends Engine {
     buildings_graphic = createGraphics(width, graphic_height)
     buildings_graphic.beginDraw()
     buildings_graphic.clear()
-    buildings_graphic.fill(building_color(0), building_color(1), building_color(2))
-    val building_height = random(rph(40), building_max_height).toInt
-    val building_width = (rpw(10) + random(rpw(10))).toInt
-    val building_x = rpw(50)-building_width/2
-    val building_y = graphic_height - building_height
-    println(s"building: w: $building_width, h: $building_height")
-    println(rph(20))
-    println(building_max_height)
-    buildings_graphic.rect(building_x, building_y, building_width, building_height)
+    (0 until nbr_buildings).foreach(add_building_graphic)
     buildings_graphic.endDraw()
     buildings_graphic.filter(PConstants.BLUR, blur_level)
+  }
+
+  private def add_building_graphic(index_building: Int) = {
+    val graphic_height = building_max_height + mg
+    val building_height = random(building_max_height*0.3f, building_max_height).toInt
+    val building_width = (rpw(10) + random(rpw(10))).toInt
+    val building_x = (index_building * width/nbr_buildings) + random(rpw(5))
+    val building_y = graphic_height - building_height
+
+    val building_hue: Color = dark_hue_map(building_color, random(0.2f, 0.6f))
+
+    buildings_graphic.fill(building_hue(0), building_hue(1), building_hue(2))
+    buildings_graphic.rect(building_x, building_y, building_width, building_height)
   }
 
   /**
