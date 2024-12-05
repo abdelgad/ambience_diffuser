@@ -57,12 +57,13 @@ abstract class Engine extends PApplet {
    * @param percent Relative distance to compute. Unit: percent (Float)
    * */
   def rph(percent: Float): Float = (op.height * percent / 100)
+  
 }
 
 class engine_param {
   var width: Int = 1280
   var height: Int = 720
-  var bg_color: Tuple3[Int, Int, Int] = (30, 30, 30)
+  var bg_color: Color = (30, 30, 30)
 }
 
 object engine_param_object extends engine_param
