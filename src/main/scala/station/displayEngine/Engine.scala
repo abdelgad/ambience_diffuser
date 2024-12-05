@@ -7,7 +7,8 @@ abstract class Engine extends PApplet {
   private val op: engine_param = engine_param_object // Object parameter that hold instance parameters
   
   override def settings(): Unit = {
-    size(op.width, op.height)
+    if(op.full_screen) fullScreen()
+    else size(op.width, op.height)
     settings_pattern()
   }
 
@@ -50,20 +51,21 @@ abstract class Engine extends PApplet {
    * Relative distance by width. Return x% * width. Allow relative positionning.
    * @param percent Relative distance to compute. Unit: percent (Float)
    * */
-  def rpw(percent: Float): Float = (op.width * percent / 100)
+  def rpw(percent: Float): Float = (this.width * percent / 100)
 
   /**
    * Relative distance by height. Return x% * height. Allow relative positionning.
    * @param percent Relative distance to compute. Unit: percent (Float)
    * */
-  def rph(percent: Float): Float = (op.height * percent / 100)
-  
+  def rph(percent: Float): Float = (this.height * percent / 100)
+
 }
 
 class engine_param {
   var width: Int = 1280
   var height: Int = 720
   var bg_color: Color = (30, 30, 30)
+  var full_screen: Boolean = true
 }
 
 object engine_param_object extends engine_param

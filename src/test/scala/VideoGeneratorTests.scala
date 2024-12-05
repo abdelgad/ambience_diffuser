@@ -1,35 +1,32 @@
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers.*
-import processing.core.PApplet
-import station.displayEngine.{Orbite, orbite_params}
+
+import station.displayEngine.{OrbitePattern, Color, display_video}
 
 class VideoGeneratorTests extends AnyFlatSpec {
 
   val width = 1280
   val height = 720
 
-  val primary_color: Tuple3[Int, Int, Int] = (252, 131, 73)
-  val secondary_color: Tuple3[Int, Int, Int] = (252, 189, 73)
-  val third_color: Tuple3[Int, Int, Int] = (252, 100, 73)
+  val primary_color: Color = (252, 131, 73)
+  val secondary_color: Color = (252, 189, 73)
+  val third_color: Color = (252, 100, 73)
 
-  val space_black: Tuple3[Int, Int, Int] = (30, 30, 30)
+  val space_black: Color = (30, 30, 30)
 
   "Generate orbite video" should "not failed" in {
-    orbite_params.width = width
-    orbite_params.height = height
-    orbite_params.bg_color = space_black
-
-    orbite_params.erw = 15
-    orbite_params.erh = 5
-    orbite_params.ang_speed = 1e-2
-    orbite_params.planet_radius = 10
-    orbite_params.sattelite_radius = 2
-    orbite_params.nbr_stars = 40
-    orbite_params.planet_color = primary_color
-    orbite_params.sattelite_color = secondary_color
     
+    val pattern = new OrbitePattern(
+      background_color = space_black, blur = 0,
+      relative_orbite_width = 15, relative_orbite_height = 5,
+      angular_speed = 1e-2,
+      relative_planet_radius = 10, relative_sattelite_radius = 2, relative_faraway_planet_radius = 6,
+      nbr_stars = 40,
+      planet_color = primary_color, sattelite_color = secondary_color, faraway_planet_color = third_color
+    )
+
     noException should be thrownBy {
-      PApplet.main(classOf[Orbite].getName)
+      display_video.display_pattern(pattern)
       Thread.sleep(3000) 
     }
   }
