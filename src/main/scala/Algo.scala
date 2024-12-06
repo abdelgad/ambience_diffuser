@@ -1,3 +1,5 @@
+import LedController.sendLedCommandOnce
+
 object AnimationController {
 
   // Types pour les paramètres
@@ -37,11 +39,10 @@ object AnimationController {
 
     // Jouer un son
     println(s"Playing sound for mode: $animationMode, Intensity=${factors.sound}")
-    // TODO: Lancer un son adapté
+    // TODO: faire apepel a la fonction de lecture de son
 
     // Animation LED
     println(s"Launching LED animation: Mode=$animationMode, Color=${factors.primaryColor}, Speed=$speed")
-    // TODO: Utiliser la fonction Scala existante pour déclencher l'animation LED
-    // Exemple : sendLedCommand(animationMode, speed, (factors.primaryColor.r, factors.primaryColor.g, factors.primaryColor.b))
+    sendLedCommandOnce(portName, animationMode, speed, (factors.primaryColor.r, factors.primaryColor.g, factors.primaryColor.b))
   }
 }
