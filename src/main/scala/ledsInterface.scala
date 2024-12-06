@@ -56,6 +56,20 @@ object LedController {
     serialPort = None
   }
 
+  def sendLedCommandOnce(portName: String, animationType: String, speed: String, color: (Int, Int, Int)): Unit = {
+    // Ouvrir le port
+    openPort(portName)
+    Thread.sleep(500) // Attendre que le port soit prêt
+
+    // Envoyer la commande
+    if (serialPort.isDefined) {
+      sendLedCommand(animationType, speed, color)
+    }
+
+    // Fermer le port
+    closePort()
+  }
+
   // Programme principal
   def main(args: Array[String]): Unit = {
     val portName = "COM5"
