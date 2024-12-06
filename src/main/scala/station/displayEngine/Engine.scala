@@ -8,7 +8,7 @@ abstract class Engine extends PApplet {
   
   var op: engine_param = engine_param_object // Object parameter that hold instance parameters
 
-  val mg = rpw(10).toInt // graphic margine
+  val mg = 30
 
   override def settings(): Unit = {
     if(op.full_screen) fullScreen()
@@ -77,14 +77,27 @@ abstract class Engine extends PApplet {
   def fill_color(c: Color) = fill(c(0), c(1), c(2))
 
   /**
-   * Create hue from color, based on a rate.
-   * @param c Color to base from. (Color)
-   * @param rate The dark rate to apply. 1 will put all color on black
+   * Create dark hue from color, based on a rate.
+   *
+   * @param c    Color to base from. (Color)
+   * @param rate The dark rate to apply. 1 will put all color on black, 0 will have no effect.
    * */
   def dark_hue_map(c: Color, rate: Float): Color = {
     assert(rate >= 0 || rate <= 1, s"Rate must be a %, then must be in [0, 1] not $rate")
     val b_rate = 1 - rate
     ((c(0)*b_rate).toInt, (c(1)*b_rate).toInt, (c(2)*b_rate).toInt)
+  }
+
+  /**
+   * Create bright hue from color, based on a rate.
+   *
+   * @param c    Color to base from. (Color)
+   * @param rate The bright rate to apply. 1 will put all color on white, 0 will have no effect.
+   * */
+  def bright_hue_map(c: Color, rate: Float): Color = {
+    assert(rate >= 0 || rate <= 1, s"Rate must be a %, then must be in [0, 1] not $rate")
+    val b_rate = 1 - rate
+    (c(0) + ((255 - c(0)) * b_rate).toInt, c(1) + ((255 - c(1)) * b_rate).toInt, c(2) + ((255 - c(2)) * b_rate).toInt)
   }
 
 }
