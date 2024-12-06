@@ -9,6 +9,10 @@ object display_video  {
         orbite_params.setup_pattern(orbite)
         Some(run_engine(classOf[Orbite].getName))
       }
+      case rain: RainPattern => {
+        rain_params.setup_pattern(rain)
+        Some(run_engine(classOf[Rain].getName))
+      }
       case _ => None
   }
   
