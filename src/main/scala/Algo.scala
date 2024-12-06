@@ -23,7 +23,7 @@ object AnimationController {
       case ("sec" | "moyen", "tempéré" | "chaud") => "fire"  // Feu
       case ("humide", "froid") => "rain"          // Pluie
       case ("humide", "tempéré" | "chaud") => "jungle" // Jungle
-      case _ => "default" // Cas par défaut (rare, pour éviter les erreurs)
+      case _ => "default" // Cas par défaut pour éviter les erreurs
     }
 
     // Déterminer la vitesse en fonction du BPM
