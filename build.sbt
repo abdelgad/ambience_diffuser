@@ -1,11 +1,20 @@
-ThisBuild / version := "0.1.0-SNAPSHOT"
+ThisBuild / version := "1.0.0"
 
 ThisBuild / scalaVersion := "3.3.4"
 
 lazy val root = (project in file("."))
   .settings(
-    name := "ambience_diffuser"
+    name := "ambience_diffuser",
+	  assembly / mainClass := Some("AmbienceDiffuser")
   )
+
+import sbtassembly.AssemblyPlugin.autoImport._
+
+assembly / assemblyMergeStrategy := {
+  case PathList("META-INF", "native-image", _ @ _*) => MergeStrategy.discard
+  case "reference.conf" => MergeStrategy.concat
+  case x => MergeStrategy.first
+}
 
 // akka
 resolvers += "Akka library repository".at("https://repo.akka.io/maven")
@@ -17,6 +26,6 @@ libraryDependencies ++= Seq(
 )
 
 // logger
-libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.5.7" // Compatible with SLF4J
+libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.5.6" // Compatible with SLF4J
 
-fork := true
+Compile / resourceDirectory := baseDirectory.value / "src" / "main" / "resources"
