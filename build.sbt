@@ -4,7 +4,8 @@ ThisBuild / scalaVersion := "3.3.4"
 
 lazy val root = (project in file("."))
   .settings(
-    name := "ambience_diffuser"
+    name := "ambience_diffuser",
+	assembly / mainClass := Some("AmbienceSensor")
   )
 
 // akka
