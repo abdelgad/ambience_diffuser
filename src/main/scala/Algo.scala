@@ -1,22 +1,27 @@
 import LedController.sendLedCommandOnce
 
-object AnimationController {
+import SnapshotJsonProtocol._
 
-  // Types pour les paramètres
-  case class RGB(r: Int, g: Int, b: Int)
-  case class Factors(
-      primaryColor: RGB,   // Couleur principale
-      secondaryColor: RGB, // Couleur secondaire
-      tertiaryColor: RGB,  // Couleur tertiaire
-      brightness: String,  // "sombre" ou "lumineux"
-      bpm: String,         // "lent" ou "rapide"
-      sound: String,       // "calme" ou "bruyant"
-      humidity: String,    // "sec", "moyen" ou "humide"
-      temperature: String  // "froid", "tempéré", "chaud"
-  )
+import SoundGenerator.generateSound
+
+import station.displayEngine.{OrbitePattern, RainPattern, Color, display_video}
+
+object AnimationController {
+  // recevoir une snapshot
+  val primaryColor = RGB(255, 0, 0),
+  val secondaryColor = RGB(0, 255, 0),
+  val tertiaryColor = RGB(0, 0, 255),
+  val datetime = "2021-10-01T12:00:00",
+  val humidity = 50.0,
+  val temperature = 20.0,
+  val illuminance = 1000.0,
+  val noiseLevel = 50.0,
+  val heartRate = 60
+  
+  val snapshot = Snapshot(primaryColor, secondaryColor, tertiaryColor, datetime, humidity, temperature, illuminance, noiseLevel, heartRate)
 
   // Fonction principale
-  def triggerAnimations(factors: Factors): Unit = {
+  def triggerAnimations(factors: Snapshot): Unit = {
     // Déterminer le mode d'animation
     val animationMode = (factors.humidity, factors.temperature) match {
       case ("sec" | "moyen", "froid") => "space"  // Espace
@@ -27,7 +32,7 @@ object AnimationController {
     }
 
     // Déterminer la vitesse en fonction du BPM
-    val speed = factors.bpm match {
+    val speed = factors.heartRate match {
       case "lent" => "SLOW"
       case "rapide" => "FAST"
       case _ => "MEDIUM" // Valeur par défaut
@@ -35,14 +40,50 @@ object AnimationController {
 
     // Animation sur écran
     println(s"Launching screen animation: Mode=$animationMode, Colors=(${factors.primaryColor}, ${factors.secondaryColor}, ${factors.tertiaryColor}), Brightness=${factors.brightness}, Speed=$speed")
-    // TODO: Lancer l'animation sur écran
+    if (animationMode == "space") {
+      val pattern = new OrbitePattern(
+        background_color = (30, 30, 30),
+        blur = 5,
+        relative_orbite_width = 15,
+        relative_orbite_height = 5,
+        //if bpm = "lent", angular_speed = 1e-3, else 1e-2
+        angular_speed = if (factors.heartRate == "lent") 1e-3 else 1e-2,
+        relative_planet_radius = 10,
+        relative_sattelite_radius = 2,
+        relative_faraway_planet_radius = 6,
+        //if luminous, nbr_stars = 100, else 40
+        nbr_stars = if (factors.illuminance == "lumineux") 100 else 40,
+        planet_color = factors.primaryColor, 
+        sattelite_color = factors.secondaryColor, 
+        faraway_planet_color = factors.tertiaryColor
+      )
+      display_video.display_pattern(pattern)
+
+    } else if (animationMode == "rain") {
+      val pattern = new RainPattern(
+        background_color = factors.secondaryColor,
+        blur_building = 8,
+        blur_cloud = 8,
+        relative_building_max_height = 70, 
+        building_color = factors.primaryColor, 
+        nbr_building = 8,
+        relative_cloud_max_width = 20, 
+        cloud_color = factors.tertiaryColor, 
+        //if luminous, nbr_cloud = 20, else 10
+        nbr_cloud = if (factors.illuminance == "lumineux") 20 else 10,
+        //if bpm = "lent", base_speed_drop = 1, else 3
+        base_speed_drop = if (factors.heartRate == "lent") 1 else 3,
+        nbr_drops = if (factors.illuminance == "lumineux") 30 else 20,
+      )
+      display_video.display_pattern(pattern)
+    }
 
     // Jouer un son
     println(s"Playing sound for mode: $animationMode, Intensity=${factors.sound}")
-    // TODO: faire apepel a la fonction de lecture de son
+    generateSound(snapshot)
 
     // Animation LED
-    println(s"Launching LED animation: Mode=$animationMode, Color=${factors.primaryColor}, Speed=$speed")
-    sendLedCommandOnce(portName, animationMode, speed, (factors.primaryColor.r, factors.primaryColor.g, factors.primaryColor.b))
+    println(s"Launching LED animation: Mode=$animationMode, Color=${factors.primaryColor}, Speed=${factors.heartRate}")
+    sendLedCommandOnce(portName, animationMode, factors.heartRate, (factors.primaryColor.r, factors.primaryColor.g, factors.primaryColor.b))
   }
 }
