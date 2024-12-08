@@ -4,7 +4,8 @@ ThisBuild / scalaVersion := "3.3.4"
 
 lazy val root = (project in file("."))
   .settings(
-    name := "ambience_diffuser"
+    name := "ambience_diffuser",
+	assembly / mainClass := Some("AmbienceSensor")
   )
 
 // akka
@@ -13,10 +14,14 @@ val AkkaVersion = "2.10.0"
 libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-actor-typed" % AkkaVersion,
   "com.typesafe.akka" %% "akka-actor-testkit-typed" % AkkaVersion % Test,
-  "com.typesafe.akka" %% "akka-remote" % AkkaVersion
+  "com.typesafe.akka" %% "akka-remote" % AkkaVersion,
+  "org.scalatest" %% "scalatest" % "3.2.19" % "test",
+  "com.jhlabs" % "filters" % "2.0.235"
 )
 
 // logger
 libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.5.7" // Compatible with SLF4J
-
 fork := true
+
+// Processing for video generation
+libraryDependencies += "org.processing" % "core" % "3.3.7"
