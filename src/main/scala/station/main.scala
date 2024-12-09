@@ -11,6 +11,7 @@ import scala.concurrent.ExecutionContextExecutor
 object AmbienceDiffuser extends App {
 
   val snapshotFolderName = "snapshots"
+  val arduinoPort = "/dev/ttyACM0"
 
   implicit val system: ActorSystem = ActorSystem("AmbienceDiffuser")
   implicit val executionContext: ExecutionContextExecutor = system.dispatcher
@@ -30,6 +31,8 @@ object AmbienceDiffuser extends App {
   // Create the FileListActor and the FileClient Actor
   val fileListActor = system.actorOf(Props(new FileListActor(snapshotFolderName, listModel)), "fileListActor")
   val fileClient = system.actorOf(Props(new FileClient(snapshotFolderName, fileListActor)), "fileClient")
+  
+  val arduinoActor = system.actorOf(Props(new Arduino(arduinoPort, fileListActor)), "arduino")
   
   // Create the JFrame window
   val frame = new JFrame("File List in Full Screen")

@@ -1,7 +1,9 @@
+package station.algorithme
+
 object SensorClassifier {
 
   def classifyHumidity(humidityValue: Double): String = {
-    if (humidityValue < 30) "Sec"
+    if (humidityValue < 40) "Sec"
     else if (humidityValue <= 70) "Moyen"
     else "Humide"
   }
@@ -12,7 +14,7 @@ object SensorClassifier {
   }
 
   def classifyLight(illuminance: Double): String = {
-    if (illuminance < 100) "Sombre"
+    if (illuminance < 15) "Sombre"
     else "Claire"
   }
 

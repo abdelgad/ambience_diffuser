@@ -1,8 +1,18 @@
+package station
+
+import akka.actor.{Actor, ActorRef}
 import jssc.{SerialPort, SerialPortEvent, SerialPortEventListener, SerialPortException}
 
-object DifuseurArduinoInterface {
-  var serialPort: Option[SerialPort] = None
 
+class Arduino(portName: String, fileList: ActorRef) extends Actor {
+  var serialPort: Option[SerialPort] = None
+  
+  openPort(portName)
+
+  override def receive: Receive = {
+    case RefreshList => print("hfiuhzeaf")
+  }
+  
   // Ouvrir le port série
   def openPort(portName: String): Unit = {
     try {
@@ -62,10 +72,10 @@ object DifuseurArduinoInterface {
   // Gérer l'entrée de l'encodeur
   def handleEncoderInput(input: String): Unit = {
     input match {
-      case "U"    => sendLedCommand("CASCADE", "FAST", (0, 0, 255)) // Cascade bleue
-      case "D"  => sendLedCommand("CASCADE", "FAST", (255, 0, 0)) // Cascade rouge
-      case "C" => sendLedCommand("CASCADE", "FAST", (0, 255, 0)) // Cascade verte
-      case _       => println(s"Commande inconnue : $input")
+      case "U"  => fileList ! SelectUp
+      case "D"  => fileList ! SelectDown
+      case "C"  => fileList ! Selected
+      case _    => println(s"Commande inconnue : $input")
     }
   }
 
@@ -81,15 +91,5 @@ object DifuseurArduinoInterface {
       }
     }
     serialPort = None
-  }
-
-  // Programme principal
-  def main(args: Array[String]): Unit = {
-    val portName = "COM5" // Modifiez selon le port utilisé
-    openPort(portName)
-
-    println("En attente des entrées du rotary encoder...")
-    scala.io.StdIn.readLine() // Bloque le programme pour maintenir l'écoute
-    closePort()
   }
 }

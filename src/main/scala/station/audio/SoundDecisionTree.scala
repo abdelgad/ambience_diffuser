@@ -1,3 +1,8 @@
+package station.audio
+
+import station.Snapshot
+import station.algorithme.SensorClassifier
+
 // Représentation de l'arbre de décision pour mapper les conditions du Snapshot à une playlist
 sealed trait DecisionTree
 case class Condition(

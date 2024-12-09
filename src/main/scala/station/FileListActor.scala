@@ -1,3 +1,5 @@
+package station
+
 import akka.actor.Actor
 
 import java.io.File
@@ -7,6 +9,9 @@ import javax.swing.{DefaultListModel, SwingUtilities}
 
 
 case object RefreshList
+case object SelectDown
+case object SelectUp
+case object Selected
 
 
 // Define the Actor that handles the file list and UI updates
@@ -17,6 +22,12 @@ class FileListActor(snapshotsFolderName: String, listModel: DefaultListModel[Str
     case RefreshList =>
       loadFiles()  // Refresh the list when the message is received
       println("File list refreshed")
+    case SelectDown =>
+      println("Select Down")
+    case SelectUp =>
+      println("Select Up")
+    case Selected =>
+      println("Selected")
   }
 
 

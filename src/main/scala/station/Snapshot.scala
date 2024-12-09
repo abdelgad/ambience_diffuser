@@ -1,12 +1,16 @@
-import spray.json._
+package station
 
-  case class RGB(r: Int, g: Int, b: Int)
+import spray.json.*
+import station.SnapshotJsonProtocol.jsonFormat9
+import station.displayEngine.Color
+
+case class RGB(r: Int, g: Int, b: Int)
   
 // Classe pour représenter un Snapshot
 case class Snapshot(
-  primaryColor: RGB,   // Couleur principale
-  secondaryColor: RGB, // Couleur secondaire
-  tertiaryColor: RGB,  // Couleur tertiaire
+  primaryColor: Color,   // Couleur principale
+  secondaryColor: Color, // Couleur secondaire
+  tertiaryColor: Color,  // Couleur tertiaire
   datetime: String,
   humidity: Double,       // En pourcentage
   temperature: Double,    // En degrés Celsius
@@ -17,5 +21,5 @@ case class Snapshot(
 
 // JSON format pour Snapshot (si nécessaire pour tests ou stockage)
 object SnapshotJsonProtocol extends DefaultJsonProtocol {
-  implicit val snapshotFormat: RootJsonFormat[Snapshot] = jsonFormat6(Snapshot.apply)
+  implicit val snapshotFormat: RootJsonFormat[Snapshot] = jsonFormat9(Snapshot.apply)
 }
