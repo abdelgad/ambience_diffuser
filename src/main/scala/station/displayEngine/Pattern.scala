@@ -50,3 +50,27 @@ case class RainPattern(
   base_speed_drop: Int, nbr_drops: Int
 ) extends Pattern(background_color)
 
+/**
+ * Pattern to define fire animation.
+ *
+ * @param background_color       Color of the background (Tuple3)
+ * @param flame_color            Color of the flames (Tuple3)
+ * @param spark_color            Color of the sparks (Tuple3)
+ * @param flame_speed            Speed of the flames (Float)
+ * @param spark_speed            Speed of the sparks (Float)
+ * @param flame_intensity        Number of flames (Int)
+ * @param spark_intensity        Number of sparks (Int)
+ * @param flame_shrink_speed     Shrink speed of the flames (Float)
+ * @param spark_shrink_speed     Shrink speed of the sparks (Float)
+ */
+case class FirePattern(
+  background_color: Color,
+  flame_color: Color,
+  spark_color: Color,
+  flame_speed: Float,
+  spark_speed: Float,
+  flame_intensity: Int,
+  spark_intensity: Int,
+  flame_shrink_speed: Float,
+  spark_shrink_speed: Float
+) extends Pattern(background_color)

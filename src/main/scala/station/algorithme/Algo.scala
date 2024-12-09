@@ -3,7 +3,7 @@ package station.algorithme
 //import station.LedController.sendLedCommandOnce
 import station.Snapshot
 import station.audio.SoundGenerator.generateSound
-import station.displayEngine.{Color, OrbitePattern, RainPattern, display_video}
+import station.displayEngine.{Color, OrbitePattern, RainPattern, FirePattern, display_video}
 
 object AnimationController {
   // recevoir une snapshot
@@ -77,6 +77,19 @@ object AnimationController {
         //if bpm = "lent", base_speed_drop = 1, else 3
         base_speed_drop = if (sc.classifyHeartRate(factors.heartRate) == "lent") 1 else 3,
         nbr_drops = if (sc.classifyLight(factors.illuminance) == "lumineux") 30 else 20,
+      )
+      display_video.display_pattern(pattern)
+    } else {
+      val pattern = new FirePattern(
+        background_color = factors.secondaryColor,
+        flame_color = factors.primaryColor,
+        spark_color = factors.tertiaryColor,
+        flame_speed = if (sc.classifyHeartRate(factors.heartRate) == "lent") 2 else 3,
+        spark_speed = if (sc.classifyHeartRate(factors.heartRate) == "lent") 4 else 6,
+        flame_intensity = if (sc.classifyLight(factors.illuminance) == "lumineux") 50 else 100,
+        spark_intensity = if (sc.classifyLight(factors.illuminance) == "lumineux") 25 else 50,
+        flame_shrink_speed = 0.5,
+        spark_shrink_speed = 0.1
       )
       display_video.display_pattern(pattern)
     }

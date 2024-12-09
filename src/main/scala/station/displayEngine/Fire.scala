@@ -129,7 +129,8 @@ class Fire extends Engine {
   }
 }
 
-object fire_params extends engine_param {
+class fire_params extends engine_param {
+  var background_color: (Int, Int, Int) = (0, 0, 0)
   var flame_color: (Int, Int, Int) = (255, 100, 0)
   var spark_color: (Int, Int, Int) = (255, 255, 0)
   var flame_speed: Float = 2f
@@ -138,6 +139,18 @@ object fire_params extends engine_param {
   var spark_intensity: Int = 50
   var flame_shrink_speed: Float = 0.5f
   var spark_shrink_speed: Float = 0.1f
+
+  def setup_pattern(fire_pattern: FirePattern) = {
+    background_color = fire_pattern.background_color
+    flame_color = fire_pattern.flame_color
+    spark_color = fire_pattern.spark_color
+    flame_speed = fire_pattern.flame_speed
+    spark_speed = fire_pattern.spark_speed
+    flame_intensity = fire_pattern.flame_intensity
+    spark_intensity = fire_pattern.spark_intensity
+    flame_shrink_speed = fire_pattern.flame_shrink_speed
+    spark_shrink_speed = fire_pattern.spark_shrink_speed
+  }
 }
 
 object Fire {
