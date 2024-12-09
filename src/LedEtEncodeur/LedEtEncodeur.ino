@@ -2,6 +2,7 @@
 // TYPE:BLOCK|SPEED:FAST|COLOR:255,5,5%
 
 #include <Adafruit_NeoPixel.h>
+#include <Encoder.h>
 
 // Configuration des LEDs
 #define PIN 6
@@ -11,10 +12,24 @@ Adafruit_NeoPixel pixels(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 // Variables pour la communication série
 String receivedCommand = "";
 
-// Configuration de l'encodeur rotatif
-#define CLK 5
-#define DT 4
-#define SW 3
+
+// Broches de l'encodeur rotatif
+#define ENC_PIN_A 5
+#define ENC_PIN_B 4
+#define BTN_PIN 3
+
+// Création de l'objet Encoder
+Encoder myEnc(ENC_PIN_A, ENC_PIN_B);
+// Intervalle de lissage (en ms)
+const unsigned long samplingInterval = 100;  
+unsigned long lastSamplingTime = 0;
+
+// Variable pour accumuler les variations
+long deltaSum = 0;
+
+// Position précédente
+long oldPosition = 0;
+unsigned long lastButtonPress = 0;
 
 // Parametres pour les animations
 struct Animation
@@ -28,11 +43,6 @@ struct Animation
 
 Animation currentAnimation;
 
-int currentStateCLK;
-int lastStateCLK;
-String currentDir = "";
-unsigned long lastButtonPress = 0;
-
 void setup()
 {
   // Setup pour les LEDs
@@ -40,12 +50,7 @@ void setup()
   pixels.begin();
   pixels.show();
 
-  // Setup pour l'encodeur rotatif
-  pinMode(CLK, INPUT);
-  pinMode(DT, INPUT);
-  pinMode(SW, INPUT_PULLUP);
-
-  lastStateCLK = digitalRead(CLK);
+  pinMode(BTN_PIN, INPUT_PULLUP);
 }
 
 void loop()
@@ -103,7 +108,7 @@ void parseCommand(String command)
   else if (type == "fire")
   {
     int delayTime = (speed == "FAST") ? 30 : 100;
-    startEffect(pixels.Color(r, g, b), delayTime, "fire"); // Couleur orange par défaut
+    startEffect(pixels.Color(r, g, b), delayTime, "fire");
   }
   else if (type == "space")
   {
@@ -329,31 +334,34 @@ uint32_t adjustBrightness(uint32_t color, float brightness)
 }
 
 // Gestion de l'encodeur rotatif
-void handleEncoder()
-{
-  currentStateCLK = digitalRead(CLK);
+void handleEncoder() {
+  long newPosition = myEnc.read();
+  long delta = newPosition - oldPosition;
+  oldPosition = newPosition;
 
-  if (currentStateCLK != lastStateCLK && currentStateCLK == 1)
-  {
-    if (digitalRead(DT) != currentStateCLK)
-    {
-      currentDir = "D"; // Rotation anti-horaire
+  // Accumule les variations
+  deltaSum += delta;
+
+  // Vérifie si l'intervalle de sampling est écoulé
+  unsigned long currentTime = millis();
+  if (currentTime - lastSamplingTime >= samplingInterval) {
+    // Lissage terminé, on interprète le résultat
+    if (deltaSum > 0) {
+      Serial.print("U"); // Direction globale vers le haut
+    } else if (deltaSum < 0) {
+      Serial.print("D"); // Direction globale vers le bas
     }
-    else
-    {
-      currentDir = "U"; // Rotation horaire
-    }
-    Serial.print(currentDir);
-    delay(100);
+    // Si deltaSum == 0, pas de mouvement significatif, on n'affiche rien
+
+    // Reset des compteurs
+    deltaSum = 0;
+    lastSamplingTime = currentTime;
   }
 
-  lastStateCLK = currentStateCLK;
-
-  int btnState = digitalRead(SW);
-  if (btnState == LOW && millis() - lastButtonPress > 50)
-  {
+  // Gestion du bouton
+  int btnState = digitalRead(BTN_PIN);
+  if (btnState == LOW && (millis() - lastButtonPress > 50)) {
     Serial.print("C");
     lastButtonPress = millis();
-    delay(300);
   }
 }
