@@ -1,3 +1,5 @@
+package station
+
 import akka.actor.{Actor, ActorSystem, Props}
 import javax.swing._
 import java.awt._

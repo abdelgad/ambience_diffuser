@@ -22,10 +22,12 @@ val AkkaVersion = "2.10.0"
 libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-actor-typed" % AkkaVersion,
   "com.typesafe.akka" %% "akka-actor-testkit-typed" % AkkaVersion % Test,
-  "com.typesafe.akka" %% "akka-remote" % AkkaVersion
+  "com.typesafe.akka" %% "akka-remote" % AkkaVersion,
+  "org.scalatest" %% "scalatest" % "3.2.19" % "test",
+  "com.jhlabs" % "filters" % "2.0.235"
 )
 
 // logger
-libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.5.6" // Compatible with SLF4J
+libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.5.7" // Compatible with SLF4J
 
-Compile / resourceDirectory := baseDirectory.value / "src" / "main" / "resources"
+// Processing for video generation
