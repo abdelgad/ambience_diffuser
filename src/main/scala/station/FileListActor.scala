@@ -77,4 +77,8 @@ class FileListActor(snapshotsFolderName: String, listModel: DefaultListModel[Str
       println("Snapshots folder does not exist or is not a directory.") // Debugging statement
     }
   }
+  
+  private def moveCursorUp = {
+    listModel.get(0)
+  }
 }
