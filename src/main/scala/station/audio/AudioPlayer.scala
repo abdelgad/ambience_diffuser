@@ -1,4 +1,7 @@
+package station.audio
+
 import javazoom.jl.player.Player
+
 import java.io.FileInputStream
 
 object AudioPlayer {

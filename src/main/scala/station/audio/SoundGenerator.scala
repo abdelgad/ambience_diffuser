@@ -1,4 +1,6 @@
-import SoundDecisionTree._
+package station.audio
+
+import station.{Snapshot}
 
 object SoundGenerator {
 

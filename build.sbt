@@ -24,10 +24,14 @@ libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-actor-testkit-typed" % AkkaVersion % Test,
   "com.typesafe.akka" %% "akka-remote" % AkkaVersion,
   "org.scalatest" %% "scalatest" % "3.2.19" % "test",
-  "com.jhlabs" % "filters" % "2.0.235"
+  "com.jhlabs" % "filters" % "2.0.235",
+  "io.spray" %%  "spray-json" % "1.3.6",
+  "net.jockx" % "test-jssc" % "2.9.3",
+  "javazoom" % "jlayer" % "1.0.1"
 )
 
 // logger
 libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.5.7" // Compatible with SLF4J
 
 // Processing for video generation
+libraryDependencies += "org.processing" % "core" % "3.3.7"
