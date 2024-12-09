@@ -20,8 +20,9 @@ String receivedCommand = "";
 
 // Création de l'objet Encoder
 Encoder myEnc(ENC_PIN_A, ENC_PIN_B);
+
 // Intervalle de lissage (en ms)
-const unsigned long samplingInterval = 100;  
+const unsigned long samplingInterval = 500;  
 unsigned long lastSamplingTime = 0;
 
 // Variable pour accumuler les variations
@@ -30,6 +31,7 @@ long deltaSum = 0;
 // Position précédente
 long oldPosition = 0;
 unsigned long lastButtonPress = 0;
+static int lastBtnState = HIGH;
 
 // Parametres pour les animations
 struct Animation
@@ -360,8 +362,11 @@ void handleEncoder() {
 
   // Gestion du bouton
   int btnState = digitalRead(BTN_PIN);
+  if (btnState != lastBtnState) {
   if (btnState == LOW && (millis() - lastButtonPress > 50)) {
     Serial.print("C");
     lastButtonPress = millis();
   }
+  }
+  lastBtnState = btnState;
 }
