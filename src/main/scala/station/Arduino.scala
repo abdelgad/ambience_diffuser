@@ -2,9 +2,10 @@ package station
 
 import akka.actor.{Actor, ActorRef}
 import jssc.{SerialPort, SerialPortEvent, SerialPortEventListener, SerialPortException}
+import message.{SelectDown, SelectUp, Selected}
 
 
-class Arduino(portName: String, fileList: ActorRef) extends Actor {
+class Arduino(portName: String, UI: ActorRef) extends Actor {
   var serialPort: Option[SerialPort] = None
   
   openPort(portName)
@@ -72,9 +73,9 @@ class Arduino(portName: String, fileList: ActorRef) extends Actor {
   // Gérer l'entrée de l'encodeur
   def handleEncoderInput(input: String): Unit = {
     input match {
-      case "U"  => fileList ! SelectUp
-      case "D"  => fileList ! SelectDown
-      case "C"  => fileList ! Selected
+      case "U"  => UI ! SelectUp
+      case "D"  => UI ! SelectDown
+      case "C"  => UI ! Selected
       case _    => println(s"Commande inconnue : $input")
     }
   }
