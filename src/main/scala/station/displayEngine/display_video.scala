@@ -13,6 +13,10 @@ object display_video  {
         rain_params.setup_pattern(rain)
         Some(run_engine(classOf[Rain].getName))
       }
+      case fire: FirePattern => {
+        fire_params.setup_pattern(fire)
+        Some(run_engine(classOf[Fire].getName))
+      }
       case _ => None
   }
   

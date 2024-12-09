@@ -16,7 +16,7 @@ object AmbienceDiffuser extends App {
   val system = ActorSystem("AmbienceDiffuser")
 
   // Set up the list model to hold file names
-  val listModel = new DefaultListModel[String]()
+  val listModel = new DefaultListModel[SnapshotFile]()
   
   // Create the FileListActor and the FileClient Actor
   val fileListActor = system.actorOf(Props(new FileListActor(snapshotFolderName, listModel)), "fileListActor")

@@ -32,7 +32,6 @@ class Arduino(portName: String, UI: ActorRef) extends Actor {
           if (event.isRXCHAR && event.getEventValue > 0) {
             try {
               val receivedData = port.readString(event.getEventValue)
-              println(s"Données reçues : $receivedData")
               handleEncoderInput(receivedData.trim)
             } catch {
               case ex: SerialPortException =>

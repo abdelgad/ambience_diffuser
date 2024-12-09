@@ -1,5 +1,7 @@
 package message
 
+import station.SnapshotFile
+
 import javax.swing.DefaultListModel
 
 case class FileList(files: Set[String])
@@ -9,4 +11,4 @@ case object SelectDown
 case object SelectUp
 case object Selected
 case class ReloadListUI()
-case class InitializeUI(listModel: DefaultListModel[String])
+case class InitializeUI(listModel: DefaultListModel[SnapshotFile])

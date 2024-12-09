@@ -17,8 +17,6 @@ class Fire extends Engine {
   // ==========
 
   override def settings_pattern(): Unit = {
-    size(fop.width, fop.height)
-    if (fop.full_screen) fullScreen()
   }
 
   override def setup_pattern(): Unit = {
@@ -28,7 +26,6 @@ class Fire extends Engine {
   }
 
   override def draw_pattern(): Unit = {
-    background(fop.bg_color._1, fop.bg_color._2, fop.bg_color._3)
     draw_flames()
     draw_small_flames()
     draw_sparks()
@@ -129,8 +126,7 @@ class Fire extends Engine {
   }
 }
 
-class fire_params extends engine_param {
-  var background_color: (Int, Int, Int) = (0, 0, 0)
+object fire_params extends engine_param {
   var flame_color: (Int, Int, Int) = (255, 100, 0)
   var spark_color: (Int, Int, Int) = (255, 255, 0)
   var flame_speed: Float = 2f
@@ -141,7 +137,7 @@ class fire_params extends engine_param {
   var spark_shrink_speed: Float = 0.1f
 
   def setup_pattern(fire_pattern: FirePattern) = {
-    background_color = fire_pattern.background_color
+    bg_color = fire_pattern.background_color
     flame_color = fire_pattern.flame_color
     spark_color = fire_pattern.spark_color
     flame_speed = fire_pattern.flame_speed
