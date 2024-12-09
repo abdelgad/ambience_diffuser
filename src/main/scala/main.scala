@@ -1,13 +1,26 @@
-import akka.actor.{Actor, ActorSystem, Props}
-import javax.swing._
-import java.awt._
-import java.awt.event._
+import akka.actor.{ActorSystem, Props}
+import akka.http.scaladsl.Http
+
+import javax.swing.*
+import java.awt.*
+import java.awt.event.*
+import scala.concurrent.ExecutionContextExecutor
 
 object AmbienceDiffuser extends App {
 
   val snapshotFolderName = "snapshots"
 
-  val system = ActorSystem("AmbienceDiffuser")
+  implicit val system: ActorSystem = ActorSystem("AmbienceDiffuser")
+  implicit val executionContext: ExecutionContextExecutor = system.dispatcher
+
+  // Initialize the JsonApiService
+  val jsonApiService = new APIService(snapshotFolderName)
+
+  // Start HTTP Server
+  val bindingFuture = Http().bindAndHandle(jsonApiService.routes, "localhost", 8080)
+  println(s"Server running at http://localhost:8080/")
+
+
 
   // Set up the list model to hold file names
   val listModel = new DefaultListModel[String]()

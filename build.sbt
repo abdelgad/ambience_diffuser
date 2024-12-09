@@ -25,6 +25,15 @@ libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-remote" % AkkaVersion
 )
 
+
+val AkkaHttpVersion = "10.7.0"
+libraryDependencies ++= Seq(
+  "com.typesafe.akka" %% "akka-http" % AkkaHttpVersion,
+  "com.typesafe.akka" %% "akka-http-spray-json" % AkkaHttpVersion,
+  "com.typesafe.akka" %% "akka-stream" % AkkaVersion
+)
+
+
 // logger
 libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.5.6" // Compatible with SLF4J
 
