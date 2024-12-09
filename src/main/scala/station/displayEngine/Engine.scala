@@ -39,6 +39,7 @@ abstract class Engine extends PApplet {
     draw_pattern()
     draw_fps
     ajustement_pattern()
+    if (!op.running) surface.setVisible(false)
   }
 
   /**
@@ -57,6 +58,7 @@ abstract class Engine extends PApplet {
    * Draw fps if asked
    * */
   private def draw_fps = if (op.display_fps) text(s"FPS: ${Math.round(frameRate)}", 10, 30)
+
 
   /**
    * Relative distance by width. Return x% * width. Allow relative positionning.
@@ -107,7 +109,8 @@ class engine_param {
   var height: Int = 720
   var bg_color: Color = (255, 255, 255)
   var full_screen: Boolean = true
-  var display_fps: Boolean = false
+  var display_fps: Boolean = true //TODO: Change
+  var running: Boolean = false
 }
 
 object engine_param_object extends engine_param
