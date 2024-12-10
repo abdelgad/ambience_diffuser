@@ -2,7 +2,7 @@ package station
 
 import akka.actor.{Actor, ActorRef}
 import jssc.{SerialPort, SerialPortEvent, SerialPortEventListener, SerialPortException}
-import message.{SelectDown, SelectUp, Selected}
+import message.{SelectDown, SelectUp, Selected, Ledmessage}
 
 
 class Arduino(portName: String, UI: ActorRef) extends Actor {
@@ -11,7 +11,7 @@ class Arduino(portName: String, UI: ActorRef) extends Actor {
   openPort(portName)
 
   override def receive: Receive = {
-    case RefreshList => print("hfiuhzeaf")
+    case Ledmessage(animationType,speed,color) => sendLedCommand(animationType,speed,color)
   }
   
   // Ouvrir le port série

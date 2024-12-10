@@ -12,3 +12,4 @@ case object SelectUp
 case object Selected
 case class ReloadListUI()
 case class InitializeUI(listModel: DefaultListModel[SnapshotFile])
+case class Ledmessage(animationType: String, speed: String, color: (Int, Int, Int))
