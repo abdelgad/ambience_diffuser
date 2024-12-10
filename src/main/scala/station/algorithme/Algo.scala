@@ -2,9 +2,9 @@ package station.algorithme
 import station.AmbienceDiffuser
 import station.Snapshot
 import station.displayEngine.{fire_params, orbite_params, rain_params}
-import station.audio.SoundGenerator.generateSound
-import station.displayEngine.{Color, OrbitePattern, RainPattern, FirePattern, display_video}
-import message.Ledmessage
+import station.AmbienceDiffuser.soundActor
+import station.displayEngine.{Color, FirePattern, OrbitePattern, RainPattern, display_video}
+import message.{Ledmessage, PlaySound}
 
 object AnimationController {
   // recevoir une snapshot
@@ -93,7 +93,7 @@ object AnimationController {
 
     // Jouer un son
     println(s"Playing sound for mode: $animationMode, Intensity=${cs.noise}")
-    generateSound(factors)
+    soundActor ! PlaySound(factors)
 
     // Animation LED
     println(s"Launching LED animation: Mode=$animationMode, Color=${cs.colors(0)}, Speed=${cs.heartrate}")
