@@ -1,10 +1,10 @@
 package station.algorithme
-
-//import station.LedController.sendLedCommandOnce
+import station.AmbienceDiffuser
 import station.Snapshot
 import station.displayEngine.{fire_params, orbite_params, rain_params}
 // import station.audio.SoundGenerator.generateSound
 import station.displayEngine.{Color, OrbitePattern, RainPattern, FirePattern, display_video}
+import message.Ledmessage
 
 object AnimationController {
   // recevoir une snapshot
@@ -97,6 +97,6 @@ object AnimationController {
 
     // Animation LED
     println(s"Launching LED animation: Mode=$animationMode, Color=${cs.colors(0)}, Speed=${cs.heartrate}")
-    //sendLedCommandOnce(portName, animationMode, sc.classifyHeartRate(factors.heartRate), factors.primaryColor)
-  }
+    AmbienceDiffuser.arduinoActor ! Ledmessage(animationMode, speed, cs.colors(0))
+    }
 }
