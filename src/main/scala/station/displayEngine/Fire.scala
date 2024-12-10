@@ -160,6 +160,8 @@ object Fire {
     fire_params.flame_intensity = 100
     fire_params.spark_intensity = 50
 
+    fire_params.running = true
+
     PApplet.main(classOf[Fire].getName)
   }
 }
