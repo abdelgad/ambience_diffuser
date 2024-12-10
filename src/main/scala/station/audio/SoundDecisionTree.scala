@@ -118,54 +118,57 @@ object SoundDecisionTree {
 
   // Fonction pour mapper une catégorie à une playlist
 def getPlaylist(category: String): List[String] = {
+  val temp = List(
+    "musique-zen-5-minutes-128-ytshorts.savetube.me", "nature-sounds-for-deep-sleep-128-ytshorts.savetube.me"
+  )
   category match {
     // Catégories avec Mélodie tonique, Son tonique
-    case cat if cat.contains("Mélodie tonique") || cat.contains("Son tonique") =>
-      List(
-        "ekisa-kyo-tekitegerekeka-by-tonic-melodies-choir-128-ytshorts.savetube.me",
-        "bullijo-tutendereza-by-tonic-melodies-choir-128-ytshorts.savetube.me"
-      )
+    case cat if cat.contains("Mélodie tonique") || cat.contains("Son tonique") => temp
+//      List(
+//        "ekisa-kyo-tekitegerekeka-by-tonic-melodies-choir-128-ytshorts.savetube.me",
+//        "bullijo-tutendereza-by-tonic-melodies-choir-128-ytshorts.savetube.me"
+//      )
 
     // Catégories avec Son relaxant, Mélodie relaxante
-    case cat if cat.contains("Son relaxant") || cat.contains("Mélodie relaxante") =>
-      List(
-        "nature-sounds-for-deep-sleep-128-ytshorts.savetube.me",
-        "relaxation-128-ytshorts.savetube.me",
-        "5-minute-meditation-music-with-earth-resonance-frequency-for-deeper-relaxation-128-ytshorts.savetube.me"
-      )
+    case cat if cat.contains("Son relaxant") || cat.contains("Mélodie relaxante") => temp
+//      List(
+//        "nature-sounds-for-deep-sleep-128-ytshorts.savetube.me",
+//        "relaxation-128-ytshorts.savetube.me",
+//        "5-minute-meditation-music-with-earth-resonance-frequency-for-deeper-relaxation-128-ytshorts.savetube.me"
+//      )
 
     // Catégories avec Son apaisant, Mélodie apaisante
-    case cat if cat.contains("Son apaisant") || cat.contains("Mélodie apaisante") =>
-      List(
-        "4-minute-timer-relaxing-music-lofi-fish-background-128-ytshorts.savetube.me",
-        "short-meditation-music-3-minute-relaxation-calming-128-ytshorts.savetube.me"
-      )
+    case cat if cat.contains("Son apaisant") || cat.contains("Mélodie apaisante") => temp
+//      List(
+//        "4-minute-timer-relaxing-music-lofi-fish-background-128-ytshorts.savetube.me",
+//        "short-meditation-music-3-minute-relaxation-calming-128-ytshorts.savetube.me"
+//      )
 
     // Catégories avec Son neutre, Mélodie neutre
-    case cat if cat.contains("Son neutre") || cat.contains("Mélodie neutre") =>
-      List(
-        "yesu-leero-nkukowoola-by-tonic-melodies-choir-128-ytshorts.savetube.me",
-        "5-minute-timer-relaxing-music-with-ocean-waves-128-ytshorts.savetube.me"
-      )
+    case cat if cat.contains("Son neutre") || cat.contains("Mélodie neutre") => temp
+//      List(
+//        "yesu-leero-nkukowoola-by-tonic-melodies-choir-128-ytshorts.savetube.me",
+//        "5-minute-timer-relaxing-music-with-ocean-waves-128-ytshorts.savetube.me"
+//      )
 
     // Catégories avec Son énergique, Mélodie énergique
-    case cat if cat.contains("Son énergique") || cat.contains("Mélodie énergique") =>
-      List(
-        "clean-up-song-for-children-by-elf-learning-128-ytshorts.savetube.me"
-      )
+    case cat if cat.contains("Son énergique") || cat.contains("Mélodie énergique") => temp
+//      List(
+//        "clean-up-song-for-children-by-elf-learning-128-ytshorts.savetube.me"
+//      )
 
     // Catégories avec Mélodie harmonieuse, Son harmonieux
-    case cat if cat.contains("Mélodie harmonieuse") || cat.contains("Son harmonieux") =>
-      List(
-        "bernard-lavilliers-jimmy-cliff-melody-tempo-harmony-128-ytshorts.savetube.me",
-        "melodie-und-harmonie-siegfried-rundel-128-ytshorts.savetube.me"
-      )
+    case cat if cat.contains("Mélodie harmonieuse") || cat.contains("Son harmonieux") => temp
+//      List(
+//        "bernard-lavilliers-jimmy-cliff-melody-tempo-harmony-128-ytshorts.savetube.me",
+//        "melodie-und-harmonie-siegfried-rundel-128-ytshorts.savetube.me"
+//      )
 
     // Catégories avec Mélodie douce, Son doux
-    case cat if cat.contains("Mélodie douce") || cat.contains("Son doux") =>
-      List(
-        "musique-zen-5-minutes-128-ytshorts.savetube.me"
-      )
+    case cat if cat.contains("Mélodie douce") || cat.contains("Son doux") => temp
+//      List(
+//        "musique-zen-5-minutes-128-ytshorts.savetube.me"
+//      )
 
     // Catégories inconnues ou par défaut
     case _ =>

@@ -1,6 +1,6 @@
 package station.UI
 
-import message.{InitializeUI, SelectDown, SelectUp, Selected}
+import message.{InitializeUI, Ledmessage, PlaySound, SelectDown, SelectUp, Selected, StopSound}
 
 import java.awt.event.{KeyAdapter, KeyEvent}
 import java.awt.{Color, Component, Font, GraphicsEnvironment}
@@ -8,6 +8,7 @@ import javax.swing.{DefaultListCellRenderer, DefaultListModel, JFrame, JLabel, J
 import akka.actor.{Actor, ActorRef}
 import station.{Snapshot, SnapshotFile, snapLoader}
 import station.algorithme.AnimationController
+import station.AmbienceDiffuser.{arduinoActor, soundActor}
 
 
 class Interface(fileListActor: ActorRef) extends Actor {
@@ -109,6 +110,8 @@ class Interface(fileListActor: ActorRef) extends Actor {
   private def stop_processing = {
     AnimationController.stop_annimation()
     frame.setVisible(true)
+    arduinoActor ! Ledmessage("stop", "", (0, 0, 0))
+    soundActor ! StopSound
     processing_is_active = false
   }
 
