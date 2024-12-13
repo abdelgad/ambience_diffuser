@@ -12,7 +12,6 @@ Adafruit_NeoPixel pixels(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 // Variables pour la communication série
 String receivedCommand = "";
 
-
 // Broches de l'encodeur rotatif
 #define ENC_PIN_A 5
 #define ENC_PIN_B 4
@@ -22,7 +21,7 @@ String receivedCommand = "";
 Encoder myEnc(ENC_PIN_A, ENC_PIN_B);
 
 // Intervalle de lissage (en ms)
-const unsigned long samplingInterval = 500;  
+const unsigned long samplingInterval = 500;
 unsigned long lastSamplingTime = 0;
 
 // Variable pour accumuler les variations
@@ -117,6 +116,10 @@ void parseCommand(String command)
     int delayTime = (speed == "FAST") ? 50 : 150;
     startEffect(pixels.Color(r, g, b), delayTime, "block");
   }
+  else if (type == "stop") // Nouvelle commande pour éteindre toutes les LEDs
+  {
+    stopEffect(); // Appel de la fonction stop
+  }
 }
 
 String getValue(String data, String key)
@@ -158,6 +161,14 @@ void startEffect(uint32_t color, int delayTime, String type)
   currentAnimation.type = type;
   currentAnimation.lastUpdate = millis();
   currentAnimation.active = true;
+}
+
+void stopEffect()
+{
+  // Fonction pour éteindre toutes les LEDs
+  pixels.clear();                  // Effacer toutes les LEDs
+  pixels.show();                   // Appliquer l'effacement
+  currentAnimation.active = false; // Désactiver l'animation en cours
 }
 
 void updateRainEffect()
@@ -336,7 +347,8 @@ uint32_t adjustBrightness(uint32_t color, float brightness)
 }
 
 // Gestion de l'encodeur rotatif
-void handleEncoder() {
+void handleEncoder()
+{
   long newPosition = myEnc.read();
   long delta = newPosition - oldPosition;
   oldPosition = newPosition;
@@ -346,11 +358,15 @@ void handleEncoder() {
 
   // Vérifie si l'intervalle de sampling est écoulé
   unsigned long currentTime = millis();
-  if (currentTime - lastSamplingTime >= samplingInterval) {
+  if (currentTime - lastSamplingTime >= samplingInterval)
+  {
     // Lissage terminé, on interprète le résultat
-    if (deltaSum > 0) {
+    if (deltaSum > 0)
+    {
       Serial.print("U"); // Direction globale vers le haut
-    } else if (deltaSum < 0) {
+    }
+    else if (deltaSum < 0)
+    {
       Serial.print("D"); // Direction globale vers le bas
     }
     // Si deltaSum == 0, pas de mouvement significatif, on n'affiche rien
@@ -362,11 +378,13 @@ void handleEncoder() {
 
   // Gestion du bouton
   int btnState = digitalRead(BTN_PIN);
-  if (btnState != lastBtnState) {
-  if (btnState == LOW && (millis() - lastButtonPress > 50)) {
-    Serial.print("C");
-    lastButtonPress = millis();
-  }
+  if (btnState != lastBtnState)
+  {
+    if (btnState == LOW && (millis() - lastButtonPress > 50))
+    {
+      Serial.print("C");
+      lastButtonPress = millis();
+    }
   }
   lastBtnState = btnState;
 }
