@@ -1,0 +1,9 @@
+{
+  "bpm": 1.0,
+  "colors": ["#E6CEA4", "#7B7B76", "#665749", "#99978E", "#F4F4ED"],
+  "datetime": "2024-12-10T11:35:28.369365757",
+  "dbs": 30.0,
+  "humidity": 43.28,
+  "illuminance": 208.81,
+  "temperature": 22.03
+}
