@@ -3,7 +3,7 @@ package station.audio
 import akka.actor.Actor
 import javazoom.jl.player.Player
 import station.Snapshot
-import message.{PlaySound, StopSound}
+import message.{PlaySound, StopSound, PlaySoundByPath}
 
 import java.io.FileInputStream
 
@@ -13,16 +13,14 @@ class SoundGenerator extends Actor {
   private var player: Option[Player] = None
 
   override def receive: Receive = {
+    case PlaySoundByPath(filePath) => play(filePath)
     case PlaySound(snap) => generateSound(snap)
     case StopSound => // Stop the music
       stopMusic()
       println("Music stopped.")
   }
 
-  private def generateSound(snapshot: Snapshot): Unit = {
-    val category = SoundDecisionTree.classifySnapshot(snapshot)
-    val playlist = SoundDecisionTree.getPlaylist(category)
-    val filePath = s"/home/student/Music/ambience/${playlist.head}.mp3"
+  private def play(filePath: String) = {
     try {
       val inputStream = new FileInputStream(filePath)
       val newPlayer = new Player(inputStream)
@@ -37,7 +35,13 @@ class SoundGenerator extends Actor {
       case e: Exception =>
         println(s"Error playing file: $e")
     }
-    // play(s"/home/student/Music/ambience/${playlist.head}.mp3")
+  }
+
+  private def generateSound(snapshot: Snapshot): Unit = {
+    val category = SoundDecisionTree.classifySnapshot(snapshot)
+    val playlist = SoundDecisionTree.getPlaylist(category)
+    val filePath = s"/home/student/Music/ambience/${playlist.head}.mp3"
+    play(s"/home/student/Music/ambience/${playlist.head}.mp3")
   }
 
   private def stopMusic(): Unit = {
