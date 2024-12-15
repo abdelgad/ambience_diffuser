@@ -1,3 +1,5 @@
+package station
+
 import akka.actor.Actor
 
 import java.io.File
@@ -6,11 +8,16 @@ import java.util.Date
 import javax.swing.{DefaultListModel, SwingUtilities}
 
 
+class SnapshotFile(fullName: String, displayName: String) {
+  override def toString = displayName
+  def get_fullname = {fullName}
+}
+
 case object RefreshList
 
 
 // Define the Actor that handles the file list and UI updates
-class FileListActor(snapshotsFolderName: String, listModel: DefaultListModel[String]) extends Actor {
+class FileListActor(snapshotsFolderName: String, listModel: DefaultListModel[SnapshotFile]) extends Actor {
 
   // Handle messages
   override def receive: Receive = {
@@ -50,7 +57,7 @@ class FileListActor(snapshotsFolderName: String, listModel: DefaultListModel[Str
     val snapshotsFolder = new File(snapshotsFolderName)
     if (snapshotsFolder.exists && snapshotsFolder.isDirectory) {
       val files = snapshotsFolder.listFiles()
-      println(s"Found ${files.length} files.")  // Debugging statement
+      println(s"Found ${files.length} files.") // Debugging statement
       val sortedFiles = files
         .filter(_.isFile)
         .sortBy(file => extractAndFormatDate(file.getName)._1) // Sort by Date object
@@ -58,8 +65,8 @@ class FileListActor(snapshotsFolderName: String, listModel: DefaultListModel[Str
       SwingUtilities.invokeLater(() => {
         listModel.clear() // Clear the existing items
         sortedFiles.foreach { file =>
-          val formattedName = extractAndFormatDate(file.getName)._2 // Get the formatted name
-          listModel.addElement(formattedName)
+          val (timestamp, formattedName) = extractAndFormatDate(file.getName)
+          listModel.addElement(SnapshotFile(file.getName, formattedName))
         }
       })
     } else {

@@ -1,12 +1,12 @@
+
+package station
+
 import akka.actor.{Actor, ActorRef}
+
+import message.{FileList, FileContent, RequestFile}
 
 import java.io.File
 import java.nio.file.{Files, Paths, StandardOpenOption}
-
-
-case class FileList(files: Set[String])
-case class RequestFile(fileName: String)
-case class FileContent(fileName: String, content: String)
 
 class FileClient(localFolderPath: String, fileListActor: ActorRef) extends Actor{
   override def receive: Receive = {
