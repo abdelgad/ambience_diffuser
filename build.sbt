@@ -19,10 +19,13 @@ assembly / assemblyMergeStrategy := {
 // akka
 resolvers += "Akka library repository".at("https://repo.akka.io/maven")
 val AkkaVersion = "2.10.0"
+val AkkaHttpVersion = "10.7.0"
 libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-actor-typed" % AkkaVersion,
   "com.typesafe.akka" %% "akka-actor-testkit-typed" % AkkaVersion % Test,
   "com.typesafe.akka" %% "akka-remote" % AkkaVersion,
+  "com.typesafe.akka" %% "akka-http" % AkkaHttpVersion,
+  "com.typesafe.akka" %% "akka-http-spray-json" % AkkaHttpVersion,
   "org.scalatest" %% "scalatest" % "3.2.19" % "test",
   "com.jhlabs" % "filters" % "2.0.235",
   "io.spray" %%  "spray-json" % "1.3.6",
