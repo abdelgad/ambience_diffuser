@@ -4,7 +4,7 @@ import station.Snapshot
 import station.displayEngine.{fire_params, orbite_params, rain_params}
 import station.AmbienceDiffuser.soundActor
 import station.displayEngine.{Color, FirePattern, OrbitePattern, RainPattern, display_video}
-import message.{Ledmessage, PlaySound}
+import message.{Ledmessage, PlaySound, PlaySoundByPath}
 
 object AnimationController {
   // recevoir une snapshot
@@ -54,6 +54,7 @@ object AnimationController {
       orbite_params.running = true
       display_video.display_pattern(pattern)
       this.stop_annimation = () => {orbite_params.running = false}
+      soundActor ! PlaySoundByPath(s"/home/student/Music/ambience/orbiterelax.mp3")
 
     } else if (animationMode == "rain") {
       val pattern = new RainPattern(
@@ -74,6 +75,7 @@ object AnimationController {
       rain_params.running = true
       display_video.display_pattern(pattern)
       this.stop_annimation = () => {rain_params.running = false}
+      soundActor ! PlaySoundByPath(s"/home/student/Music/ambience/ville.mp3")
     } else {
       val pattern = new FirePattern(
         background_color = cs.colors(1),
@@ -89,11 +91,8 @@ object AnimationController {
       fire_params.running = true
       display_video.display_pattern(pattern)
       this.stop_annimation = () => {fire_params.running = false}
+      soundActor ! PlaySoundByPath(s"/home/student/Music/ambience/energetique.mp3")
     }
-
-    // Jouer un son
-    println(s"Playing sound for mode: $animationMode, Intensity=${cs.noise}")
-    soundActor ! PlaySound(factors)
 
     // Animation LED
     println(s"Launching LED animation: Mode=$animationMode, Color=${cs.colors(0)}, Speed=${cs.heartrate}")
