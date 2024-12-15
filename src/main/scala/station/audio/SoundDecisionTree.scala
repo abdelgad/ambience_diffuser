@@ -14,7 +14,12 @@ case class Leaf(playlist: List[String]) extends DecisionTree
 
 // Arbre de décision simplifié
 object SoundDecisionTree {
-   // Fonction pour classer les données du Snapshot
+  // Cette partie est la seule qui a été réalisée par Cédric, malheureusement la facon dont cela a été implémenté ne corespondais pas a nos attentes
+  // En effet l'algorithme nous semble implémenté de maniere étrange et les sons choisis ne coresspondais pas dutout a des sons d'ambiance
+  // Nous avons donc décidé de commenter l'appel aux sons qui ne corepondait pas a nos attentes et ajouté certains qui correspondais mieux pour la présentation
+  // Idalement, nous aurions aimé que cette partie soit retravaillée, mais faute de temps, nous avons décidé de laisser tel quel
+  
+  // Fonction pour classer les données du Snapshot
   def classifySnapshot(snapshot: Snapshot): String = {
     val humidity = SensorClassifier.classifyHumidity(snapshot.humidity)
     val noise = SensorClassifier.classifyNoise(snapshot.bpm)
