@@ -26,7 +26,7 @@ class Arduino(portName: String, UI: ActorRef) extends Actor {
         SerialPort.PARITY_NONE
       )
 
-      // Ajouter un listener pour lire les données du port
+      //Listener pour lire les données du port
       port.addEventListener(new SerialPortEventListener {
         override def serialEvent(event: SerialPortEvent): Unit = {
           if (event.isRXCHAR && event.getEventValue > 0) {

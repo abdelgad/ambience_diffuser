@@ -1,5 +1,5 @@
-// TO USE TYPE THE FOLOWING COMMAND IN THE MONITOR
-// TYPE:BLOCK|SPEED:FAST|COLOR:255,5,5%
+// TO TEST TYPE THE FOLOWING COMMAND IN THE ARDUINO MONITOR
+// TYPE:space|SPEED:FAST|COLOR:255,5,5%
 
 #include <Adafruit_NeoPixel.h>
 #include <Encoder.h>
@@ -116,9 +116,9 @@ void parseCommand(String command)
     int delayTime = (speed == "FAST") ? 50 : 150;
     startEffect(pixels.Color(r, g, b), delayTime, "block");
   }
-  else if (type == "stop") // Nouvelle commande pour éteindre toutes les LEDs
+  else if (type == "stop") // Commande pour éteindre toutes les LEDs
   {
-    stopEffect(); // Appel de la fonction stop
+    stopEffect();
   }
 }
 
