@@ -33,7 +33,7 @@ class SoundGeneratorTests extends AnyFlatSpec {
   "AudioPlayer.play" should "not throw an exception when playing a valid file" in {
     noException should be thrownBy {
       val filePath = "src/main/resources/playlist/relaxation-128-ytshorts.savetube.me.mp3"
-      generate_sound.AudioPlayer.play(filePath) // Tester la lecture
+      station.audio.AudioPlayer.play(filePath) // Tester la lecture
     }
   }
 
