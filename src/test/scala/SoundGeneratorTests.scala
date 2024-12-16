@@ -1,6 +1,7 @@
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers._
-import statio.audio.{Snapshot, SoundDecisionTree, SoundGenerator}
+import station.audio.{SoundDecisionTree, SoundGenerator}
+import station.{Snapshot}
 
 class SoundGeneratorTests extends AnyFlatSpec {
 
